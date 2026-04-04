@@ -2,7 +2,6 @@ package com.simplepaymentplatform.service;
 
 import com.simplepaymentplatform.domain.user.User;
 import com.simplepaymentplatform.domain.user.UserType;
-import com.simplepaymentplatform.repository.TransactionRepository;
 import com.simplepaymentplatform.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
