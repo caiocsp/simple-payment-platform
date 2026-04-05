@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -49,5 +51,14 @@ public class UserService {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falha ao criar usuário!");
         }
+    }
+
+    public List<UserResponseBody> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserResponseBody> usersResponseList = new ArrayList<>();
+        for (User user : users) {
+            usersResponseList.add(new UserResponseBody(user));
+        }
+        return usersResponseList;
     }
 }

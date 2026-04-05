@@ -1,6 +1,5 @@
 package com.simplepaymentplatform.controller;
 
-import com.simplepaymentplatform.domain.user.User;
 import com.simplepaymentplatform.dto.UserDTO;
 import com.simplepaymentplatform.response.UserResponseBody;
 import com.simplepaymentplatform.service.UserService;
@@ -9,7 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/user")
+import java.util.List;
+
+@RestController
+@RequestMapping(value = "/user")
 public class UserController {
 
     @Autowired
@@ -19,5 +21,11 @@ public class UserController {
     public ResponseEntity<UserResponseBody> createUser(@RequestBody UserDTO user) throws Exception {
         UserResponseBody newUser = userService.createUser(user);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/users")
+    public ResponseEntity<List<UserResponseBody>> getAllUsers() {
+        List<UserResponseBody> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }
