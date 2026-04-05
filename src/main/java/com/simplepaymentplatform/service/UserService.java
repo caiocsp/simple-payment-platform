@@ -2,7 +2,9 @@ package com.simplepaymentplatform.service;
 
 import com.simplepaymentplatform.domain.user.User;
 import com.simplepaymentplatform.domain.user.UserType;
+import com.simplepaymentplatform.dto.UserDTO;
 import com.simplepaymentplatform.repository.UserRepository;
+import com.simplepaymentplatform.response.UserResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,16 @@ public class UserService {
             this.userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falha ao salvar informações do usuário!");
+        }
+    }
+
+    public UserResponseBody createUser(UserDTO userData) throws Exception {
+        try {
+            User user = new User(userData);
+            saveUser(user);
+            return new UserResponseBody(userData);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falha ao criar usuário!");
         }
     }
 }
