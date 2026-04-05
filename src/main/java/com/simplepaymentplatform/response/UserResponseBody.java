@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class UserResponseBody {
 
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -23,16 +24,8 @@ public class UserResponseBody {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
-    public UserResponseBody(UserDTO userData) {
-        this.firstName = userData.firstName();
-        this.lastName = userData.lastName();
-        this.email = userData.email();
-        this.document = userData.document();
-        this.userType = userData.userType();
-        this.balance = userData.balance();
-    }
-
     public UserResponseBody(User userData) {
+        this.id = userData.getId();
         this.firstName = userData.getFirstName();
         this.lastName = userData.getLastName();
         this.email = userData.getEmail();

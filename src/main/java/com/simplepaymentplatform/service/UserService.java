@@ -35,9 +35,9 @@ public class UserService {
         return this.userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!"));
     }
 
-    public void saveUser(User user) throws Exception {
+    public User saveUser(User user) throws Exception {
         try {
-            this.userRepository.save(user);
+            return this.userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falha ao salvar informações do usuário!");
         }
@@ -46,8 +46,7 @@ public class UserService {
     public UserResponseBody createUser(UserDTO userData) throws Exception {
         try {
             User user = new User(userData);
-            saveUser(user);
-            return new UserResponseBody(userData);
+            return new UserResponseBody(saveUser(user));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falha ao criar usuário!");
         }
