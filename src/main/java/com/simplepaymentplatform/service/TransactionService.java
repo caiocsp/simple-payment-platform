@@ -57,22 +57,18 @@ public class TransactionService {
             userService.saveUser(sender);
             userService.saveUser(receiver);
         } catch (DataIntegrityViolationException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falha ao salvar informações do usuário!");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falha ao atualizar informações do usuário!");
         }
         return newTransaction;
     }
 
     public boolean authorizeTransaction(User sender, BigDecimal value) throws Exception {
-        try {
             ResponseEntity<Map> authorizationResponse = restTemplate.getForEntity(env.getProperty("external.auth.tool.url", ""), Map.class);
             if (authorizationResponse.getStatusCode().equals(HttpStatus.OK)
                     && authorizationResponse.getBody() != null) {
                 String message = authorizationResponse.getBody().get("status").toString();
                 return message.equalsIgnoreCase("Success");
             }
-        } catch (HttpClientErrorException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Transação não autorizada!");
-        }
         return false;
     }
 }

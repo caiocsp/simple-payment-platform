@@ -23,7 +23,7 @@ public class UserService {
 
     public void validateTransaction(User sender, BigDecimal amount) throws Exception {
         if(sender.getUserType().equals(UserType.MERCHANT)) {
-            throw new IllegalArgumentException("Usuário do tipo lojista não está autorizado a realizar transações.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário do tipo lojista não está autorizado a realizar transações.");
         }
 
         if(sender.getBalance().compareTo(amount) < 0) {
@@ -36,20 +36,13 @@ public class UserService {
     }
 
     public User saveUser(User user) throws Exception {
-        try {
             return this.userRepository.save(user);
-        } catch (DataIntegrityViolationException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falha ao salvar informações do usuário!");
-        }
+
     }
 
     public UserResponseBody createUser(UserDTO userData) throws Exception {
-        try {
             User user = new User(userData);
             return new UserResponseBody(saveUser(user));
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falha ao criar usuário!");
-        }
     }
 
     public List<UserResponseBody> getAllUsers() {
